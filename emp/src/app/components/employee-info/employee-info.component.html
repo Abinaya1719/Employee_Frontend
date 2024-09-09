@@ -1,0 +1,103 @@
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand">Employee Information</a>
+
+    <!-- <input class="form-outline m-1" data-mdb-input-init type="search" [(ngModel)]="searchtext" class="form-control" placeholder="Search..." aria-label="Search"> -->
+    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#employeeModal" (click)="onAddEmployee()">Add Employee</button>
+
+  </div>
+</nav>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-2">
+      <input 
+        type="search" 
+        [(ngModel)]="searchtext" 
+        class="form-control" 
+        placeholder="Search..." 
+        aria-label="Search"
+      >
+    </div>
+  </div>
+</div>
+<div class="table-container row justify-content-center mt-5 ">
+ <div class="col-auto">
+  <table class="table table-hover table-bordered table-striped  table-spacing table-responsive ">
+
+    <thead>
+      <tr>
+        <th>Name</th>
+        <!-- <th>ID</th> -->
+        <th>Department</th>
+        <th>Salary</th>
+        <th>Level</th>
+        <th>Location</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let item of employeeDetails | filter:searchtext">
+        <td>{{item.name}}</td>
+        <!-- <td>{{item.EmployeeID}}</td> -->
+        <td>{{item.department}}</td>
+        <td>{{item.salary}}</td>
+        <td>{{item.level}}</td>
+        <td>{{item.location}}</td>
+        <td>
+          <button type="button"  (click)="edit(item)" data-bs-toggle="modal" data-bs-target="#employeeModal" class="btn btn-sm btn-warning text-white mx-2 ">Update</button>
+          <button type="button" (click)="deleteEmployeeDetail(item.id)" class="btn btn-sm btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="employeeModalLabel">Employee Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="employeeForm">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" placeholder="Name" formControlName="name">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Id</label>
+            <input type="text" class="form-control" placeholder="Id" formControlName="EmployeeID">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Department</label>
+            <input type="text" class="form-control" placeholder="Department" formControlName="department">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Salary</label>
+            <input type="number" class="form-control" placeholder="Salary" formControlName="salary">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Level</label>
+            <input type="number" class="form-control" placeholder="Level" formControlName="level">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" placeholder="Location" formControlName="location">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close" (click)="reset()">Close</button>
+        <button type="button"  class="btn btn-primary" (click)="UpdateStudent()" data-bs-target="#employeeModal" *ngIf="showUpdateButton">Update Employee</button>
+        <button type="button" class="btn btn-primary" (click)="postEmployeeDetails()" *ngIf="showAddButton">Add Employee</button>
+      </div>
+    </div>
+  </div>
+</div>

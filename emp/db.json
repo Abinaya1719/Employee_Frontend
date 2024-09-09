@@ -1,0 +1,21 @@
+{
+  "employees": [
+    {
+      "id": "563e",
+      "name": "Nanthini.N",
+      "department": "ATCI",
+      "salary": 10000,
+      "level": 10,
+      "location": "Bengaluru"
+    },
+    {
+      "id": "aac3",
+      "name": "aaaaa",
+      "EmployeeID": "1213",
+      "department": "Fiance",
+      "salary": 30000,
+      "level": 10,
+      "location": "Chennai"
+    }
+  ]
+}
