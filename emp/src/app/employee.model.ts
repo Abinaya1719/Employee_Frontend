@@ -1,5 +1,5 @@
 export class EmployeeModel{
-    id:number=0;
+    id!:number;
     name:string="";
     EmployeeID!:number;
     department:string="";
