@@ -89,7 +89,7 @@ export class EmployeeInfoComponent {
       this.employeeForm.reset();
       this.getAllEmployeeDetails();
     }, err => {
-      alert("Error")
+      alert("Failed to add Employee Information")
     })
   }
 
@@ -99,7 +99,7 @@ export class EmployeeInfoComponent {
       alert("Employee Information Deleted");
       this.getAllEmployeeDetails();
     }, err => {
-      alert("Failed to delete student information")
+      alert("Failed to delete employee information")
     })
   }
 
@@ -142,6 +142,8 @@ export class EmployeeInfoComponent {
     this.studentobj.location = this.employeeForm.value.location;
     this.api.updateEmployee(this.studentobj,this.studentobj.id).subscribe(res => {
       alert("Data Updated");
+      let close = document.getElementById('close');
+      close?.click();
       this.getAllEmployeeDetails();
     })
 
