@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiServiceService } from '../../shared/api-service.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EmployeeModel } from '../../employee.model';
+import { AddressModel } from '../../address.model';
 
 @Component({
   selector: 'app-employee-info',
@@ -15,13 +16,18 @@ export class EmployeeInfoComponent {
   dataId!:number;
   searchtext:any;
   employeeForm!: FormGroup;
+  addressForm!: FormGroup;
+  addressModel: any;
   employeeModel: any;
   employeeDetails: any;
   showAddButton: boolean = true;
   showUpdateButton: boolean = false
+  showAddrAddButton: boolean = true;
+  showAddrUpdateButton: boolean = false
   employee: any = {};
   id!:number;
-  studentobj:EmployeeModel = new EmployeeModel;
+  studentobj: EmployeeModel = new EmployeeModel;
+  addressObj: AddressModel = new AddressModel;
 
   constructor(private activates:ActivatedRoute,
     private router:Router, 
@@ -32,7 +38,8 @@ export class EmployeeInfoComponent {
     this.id = this.activates.snapshot.params['id'];
     this.getAllEmployeeDetails();
     this.createEmployeeForm();
-     this.getEmployeeById();
+    this.getEmployeeById();
+    this.createAddressForm();
   }
   getEmployeeById() {
     if(this.id){
@@ -52,6 +59,17 @@ export class EmployeeInfoComponent {
       location: ['']
     })
     this.employeeForm.reset();
+  }
+  createAddressForm() {
+    this.addressForm = this.fb.group({
+      addressLine1: [''],
+      addressLine2: [''],
+      city: [''],
+      state: [''],
+      country: [''],
+      empId: ['']
+    })
+    this.addressForm.reset();
   }
 
   // searchById() {
@@ -101,6 +119,58 @@ export class EmployeeInfoComponent {
     }, err => {
       alert("Failed to delete student information")
     })
+  }
+
+  createAddress() {
+    this.addressModel = Object.assign({}, this.addressForm.value);
+    alert(this.addressModel);
+    this.api.postAddress(this.addressModel).subscribe(res => {
+      alert("Address Information added ")
+      let close = document.getElementById('close');
+      close?.click();
+      this.addressForm.reset();
+      
+    }, err => {
+      console.log("Error", err);
+    })
+  }
+
+  updateAddress() {
+    //alert('Update address');
+    this.addressModel = Object.assign({}, this.addressForm.value);
+    //alert(JSON.stringify(this.addressModel));
+    this.api.postAddress(this.addressModel).subscribe(res => {
+      //alert("Address Information added ")
+      let close = document.getElementById('close');
+      close?.click();
+      //this.addressForm.reset();
+
+    }, err => {
+      console.log("Error", err);
+    })
+  }
+
+  showEmployeeAddress(empid: any) {
+
+    this.addressForm.reset();
+    this.addressForm.controls['empId'].setValue(empid);
+    this.showAddrAddButton = true;
+    this.showAddrUpdateButton = false;
+    this.api.getAddressByEmpId(empid).subscribe(res => {
+      this.addressModel = res;
+      let addr = this.addressModel;//{ addressLine1: "test", addressLine2: "test", city: "test", state: "test", country: "test", };
+      this.showAddrAddButton = false;
+      this.showAddrUpdateButton = true;
+      this.addressForm.controls['addressLine1'].setValue(addr.addressLine1);
+      this.addressForm.controls['addressLine2'].setValue(addr.addressLine2);
+      this.addressForm.controls['city'].setValue(addr.city);
+      this.addressForm.controls['state'].setValue(addr.state);
+      this.addressForm.controls['country'].setValue(addr.country);
+      
+       }, err => {
+         console.log("Error", err)
+       })
+
   }
 
   edit(employee: any) {
@@ -153,6 +223,8 @@ export class EmployeeInfoComponent {
   reset() {
     this.employeeForm.reset();
     this.employeeModel = {};
+    this.addressForm.reset();
+    this.addressModel = {};
   }
   
 }

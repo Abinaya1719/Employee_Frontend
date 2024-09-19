@@ -9,8 +9,17 @@ export class ApiServiceService {
 
   constructor(private http:HttpClient) { }
 
-  private baseurl = 'http://localhost:9999'
+  private baseurl = 'http://localhost:9999';// emp service base url
+  private baseurlAddress = 'http://localhost:9991';// addr service base url
 
+  getAddressByEmpId(empid: number) {
+    return this.http.get<any>(this.baseurlAddress + '/address/' + empid);
+  }
+
+  postAddress(data: any) {
+    //alert(JSON.stringify(data));
+    return this.http.post<any>(this.baseurlAddress + '/address', data)
+  }
   postEmployee(data:any){
     // return this.http.post<any>(this.url,data)
     return this.http.post<any>(this.baseurl+'/employees',data)
@@ -24,6 +33,7 @@ export class ApiServiceService {
   getEmployeeById(id: number) {
     return this.http.get<any>(this.baseurl+'/employees/'+id);
   }
+
 
   deleteEmployee(id:any){
     // return this.http.delete<any>(this.url,id)

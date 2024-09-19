@@ -44,8 +44,9 @@
         <td>{{item.level}}</td>
         <td>{{item.location}}</td>
         <td>
-          <button type="button"  (click)="edit(item)" data-bs-toggle="modal" data-bs-target="#employeeModal" class="btn btn-sm btn-warning text-white mx-2 ">Update</button>
+          <button type="button" (click)="edit(item)" data-bs-toggle="modal" data-bs-target="#employeeModal" class="btn btn-sm btn-warning text-white mx-2 ">Update</button>
           <button type="button" (click)="deleteEmployeeDetail(item.id)" class="btn btn-sm btn-danger">Delete</button>
+          <button type="button" (click)="showEmployeeAddress(item.id)" data-bs-toggle="modal" data-bs-target="#addressModal" class="btn btn-sm btn-warning text-white mx-2">Show Address</button>
         </td>
       </tr>
     </tbody>
@@ -101,3 +102,52 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addressModalLabel">Employee Address Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addressForm">
+
+          <div class="mb-3">
+           
+            <input type="hidden" class="form-control" placeholder="" formControlName="empId">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Address Line1</label>
+            <input type="text" class="form-control" placeholder="Address Line1" formControlName="addressLine1">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Address Line2</label>
+            <input type="text" class="form-control" placeholder="Address Line2" formControlName="addressLine2">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">City</label>
+            <input type="text" class="form-control" placeholder="City" formControlName="city">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">State</label>
+            <input type="text" class="form-control" placeholder="State" formControlName="state">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Country</label>
+            <input type="text" class="form-control" placeholder="Country" formControlName="country">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close" (click)="reset()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateAddress()" data-bs-target="#addressModal" *ngIf="showAddrUpdateButton">Update Address</button>
+        <button type="button" class="btn btn-primary" (click)="createAddress()" *ngIf="showAddrAddButton">Add Address</button>
+      </div>
+    </div>
+  </div>
