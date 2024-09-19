@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class ApiServiceService {
   }
 
 
-  deleteEmployee(id:any){
+  deleteEmployee(id:any):Observable<any>{
     // return this.http.delete<any>(this.url,id)
     return this.http.delete<any>(this.baseurl+'/employees/'+ id);
   }
